@@ -1,4 +1,4 @@
-﻿namespace AudiobooksToGo.Dto
+﻿namespace SagaServer.Dto
 {
     public class SeriesLinkDto
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AudioBooksToGo.Dto
+namespace SagaUtil.Dto
 {
     public class UserDto
     {

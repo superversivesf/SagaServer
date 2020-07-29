@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AudiobooksToGo.Dto
+namespace SagaServer.Dto
 {
     public class GenreDto
     {

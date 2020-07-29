@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AudiobooksToGo.Dto
+namespace SagaServer.Dto
 {
     public class AuthorLinkDto : IEquatable<AuthorLinkDto>
     {

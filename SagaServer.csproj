@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AudiobookDb\AudiobookDb.csproj" />
-    <ProjectReference Include="..\AudiobookUtil\AudiobookUtil.csproj" />
+    <ProjectReference Include="..\SagaDb\SagaDb.csproj" />
+    <ProjectReference Include="..\SagaUtil\SagaUtil.csproj" />
   </ItemGroup>
 
 

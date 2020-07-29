@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AudiobooksToGo.Dto
+namespace SagaServer.Dto
 {
     public class GenreDetailsDto
     { 
