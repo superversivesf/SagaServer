@@ -1,5 +1,8 @@
-﻿using System;
+﻿using SagaDb.Databases;
+using SagaDb.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,6 +34,21 @@ namespace SagaUtil
             this.BookDb = bookDb;
             this.UserDb = userDb;
             this.JwtSigningKey = signingKey;
+
+            if (!File.Exists(this.UserDb))
+            {
+                // Need to create a userdb for first run with admin account
+                var _userCommands = new UserCommands(this.UserDb);
+                var _user = new User();
+                _user.FullName = "Admin";
+                _user.UserName = "admin";
+                _user.Password = "admin";
+                _user.UserRole = "Admin";
+
+                _userCommands.InsertUser(_user);
+                Console.WriteLine("UserDb created, admin user with password admin created. Change this password!");
+            }
+
         }
 
         public static SystemVariables Instance
