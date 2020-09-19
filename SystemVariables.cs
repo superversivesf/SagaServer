@@ -44,6 +44,7 @@ namespace SagaUtil
                 _user.UserName = "admin";
                 _user.Password = "admin";
                 _user.UserRole = "Admin";
+                _user.PasswordSalt = RandomStringGenerator.StringGenerator.GetUniqueString(32);
 
                 _userCommands.InsertUser(_user);
                 Console.WriteLine("UserDb created, admin user with password admin created. Change this password!");

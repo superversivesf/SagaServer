@@ -101,9 +101,11 @@ namespace SagaUtil.Controllers
             if (_user == null)
                 return null;
 
-            var _passwordHash = loginCredentials.Password;
+            var _salt = _user.PasswordSalt;
+            var _pass = _user.Password;
+            var _userpass = UserHelper.GenerateSaltedHash(loginCredentials.Password, _salt);
 
-            if (_passwordHash != _user.Password)
+            if (!UserHelper.ComparePasswords(_pass, _userpass))
                 return null;
 
             return _user;
