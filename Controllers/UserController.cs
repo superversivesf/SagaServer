@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SagaDb.Databases;
 using SagaDb.Models;
+using SagaDb.Database;
 
 namespace SagaUtil.Controllers
 {
@@ -23,11 +24,13 @@ namespace SagaUtil.Controllers
     {
         private readonly IConfiguration _config;
         private UserCommands _userCommands;
+        private BookCommands _bookCommands;
 
         public UserController(IConfiguration config)
         {  
             _config = config;
             _userCommands = new UserCommands(SystemVariables.Instance.UserDb);
+            _bookCommands = new BookCommands(SystemVariables.Instance.BookDb);
         }
 
         [HttpPost("Login", Name = "Login")]
@@ -66,6 +69,91 @@ namespace SagaUtil.Controllers
                 });
             }
             return response;
+        }
+
+        [HttpPost("SetProgress", Name = "SetProgress")]
+        public IActionResult Progress([FromBody] SetProgressDto setProgress)
+        {
+            var _user = this._userCommands.GetUser(setProgress.UserName);
+            var _book = this._bookCommands.GetBook(setProgress.BookId);
+            var _file = this._bookCommands.GetAudioFile(setProgress.FileId);
+            var _progress = this._userCommands.GetProgress(setProgress.UserName, setProgress.BookId);
+                
+
+            if (_user!= null && _book != null && _file != null) // User, book or file is missing
+            {
+                if (setProgress.Offset <= _file.Duration) // Not past the end of the file
+                {
+                    if (_progress == null) // No progress on this book yet
+                    {
+                        _progress = new BookProgress();
+                        _progress.UserId = _user.UserId;
+                        _progress.Location = setProgress.Offset;
+                        _progress.BookId = _book.BookId;
+                        _progress.AudioFileId = _file.AudioFileId;
+                        this._userCommands.InsertProgress(_progress);
+                    }
+                    else
+                    {
+                        _progress.AudioFileId = _file.AudioFileId;
+                        _progress.Location = setProgress.Offset;
+                        this._userCommands.UpdateProgress(_progress);
+                    }
+
+                    return Ok();
+                }
+            }
+            return NotFound(new
+            {
+                user = _user,
+                book = _book,
+                fileId = _file,
+                offset = setProgress.Offset
+            });
+        }
+
+        [HttpPost("GetProgress", Name = "GetProgress")]
+        public IActionResult Progress([FromBody] GetProgressDto getProgress)
+        {
+            var _user = this._userCommands.GetUser(getProgress.UserName);
+
+            List<BookProgress> _bookProgresses = null;
+
+            if (getProgress.BookId == null)
+            {
+                _bookProgresses = this._userCommands.GetProgressByUser(_user.UserId);
+            }
+            else
+            {
+                _bookProgresses = this._userCommands.GetProgressByUserAndBookID(_user.UserId, getProgress.BookId);
+            }
+
+            return Ok(new
+            {
+                bookProgress = _bookProgresses
+            }) ;
+        }
+
+        [HttpPost("SetRead", Name = "SetRead")]
+        public IActionResult GetRead([FromBody] SetReadDto setRead)
+        {
+            IActionResult progressResult = Unauthorized();
+
+            // If a book is specified then progress for that book
+            // else progress for all books
+
+            return progressResult;
+        }
+
+        [HttpPost("GetRead", Name = "GetRead")]
+        public IActionResult GetRead([FromBody] GetReadDto getRead)
+        {
+            IActionResult progressResult = Unauthorized();
+
+            // If a book is specified then progress for that book
+            // else progress for all books
+
+            return progressResult;
         }
 
         private User RefreshUser(RefreshDto refresh)
@@ -126,7 +214,7 @@ namespace SagaUtil.Controllers
                 issuer: SystemVariables.Instance.JwtAudience,
                 audience: SystemVariables.Instance.JwtAudience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(5),
+                expires: DateTime.Now.AddHours(3), //AddSeconds(30),// AddMinutes(5),
                 signingCredentials: credentials
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);

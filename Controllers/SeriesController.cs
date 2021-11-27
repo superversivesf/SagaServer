@@ -32,7 +32,7 @@ namespace SagaUtil.Controllers
             {
                 var _seriesDto = new SeriesDto();
                 _seriesDto.SeriesName = series.SeriesName;
-                _seriesDto.SeriesDetailsLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Series/{series.SeriesId}/Details";
+                _seriesDto.SeriesId = series.SeriesId;
                 _result.Add(_seriesDto);
             }
             return _result;
@@ -45,7 +45,7 @@ namespace SagaUtil.Controllers
             var _series = _bookCommands.GetSeries(id);
             var _seriesDto = new SeriesDto();
             _seriesDto.SeriesName = _series.SeriesName;
-            _seriesDto.SeriesDetailsLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Series/{_series.SeriesId}/Details";
+            _seriesDto.SeriesId = _series.SeriesId;
             return _seriesDto;
         }
 
@@ -63,10 +63,10 @@ namespace SagaUtil.Controllers
             foreach (var b in _seriesBooks)
             { 
                 var _author = this._bookCommands.GetAuthorsByBookId(b.BookId);
-                _authors.AddRange(_author.Select(a => new AuthorLinkDto() { AuthorName = a.AuthorName, AuthorLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Author/{a.AuthorId}" }).ToList());
+                _authors.AddRange(_author.Select(a => new AuthorLinkDto() { AuthorName = a.AuthorName, AuthorId = a.AuthorId }).ToList());
                 var _book = this._bookCommands.GetBook(b.BookId);
                 var _bookTitle = _book.GoodReadsTitle != null ? _book.GoodReadsTitle : _book.BookTitle;
-                _books.Add(new BookSeriesLinkDto() { BookTitle = _bookTitle, BookId = _book.BookId, SeriesVolume = b.SeriesVolume, BookLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Book/{b.BookId}", BookDetailsLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Book/{b.BookId}/Details", BookCoverLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Image/{b.BookId}" }); 
+                _books.Add(new BookSeriesLinkDto() { BookTitle = _bookTitle, BookId = _book.BookId, SeriesVolume = b.SeriesVolume, BookCoverImageId = b.BookId }); 
             }
 
             _seriesDetailsDto.SeriesName = _series.SeriesName;

@@ -10,9 +10,7 @@ namespace SagaServer.Dto
         public string Title { get; set; }
         public string BookId { get; set; }
         public List<string> Authors { get; set; }
-        public string CoverLink { get; set; }
+        public string CoverImageId { get; set; }
         public string ShortDesc { get; set; }
-        public string DetailsLink { get; set; }
-
     }
 }

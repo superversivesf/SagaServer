@@ -39,8 +39,7 @@ namespace SagaUtil.Controllers
             return new GenreDto()
             {
                 GenreId = _genre.GenreId,
-                GenreName = _genre.GenreName,
-                GenreDetails = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Genre/{_genre.GenreId}/Details"
+                GenreName = _genre.GenreName
             };
         }
 
@@ -54,9 +53,9 @@ namespace SagaUtil.Controllers
             var _genreAuthors = new List<AuthorLinkDto>();
             foreach (var b in _genreBookList)
             {
-                _genreBooks.Add(new BookLinkDto() { BookTitle = b.BookTitle, BookId = b.BookId, BookLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Book/{b.BookId}", BookDetailsLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Book/{b.BookId}/Details" });
+                _genreBooks.Add(new BookLinkDto() { BookTitle = b.BookTitle, BookId = b.BookId });
                 var _authors = this._bookCommands.GetAuthorsByBookId(b.BookId);
-                _genreAuthors.AddRange(_authors.Select(a => new AuthorLinkDto() {AuthorLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Author/{a.AuthorId}", AuthorName = a.AuthorName }));
+                _genreAuthors.AddRange(_authors.Select(a => new AuthorLinkDto() {AuthorId = a.AuthorId, AuthorName = a.AuthorName }));
             }
 
             return new GenreDetailsDto()

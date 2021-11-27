@@ -13,7 +13,7 @@ namespace SagaServer.Dto
         public List<GenreLinkDto> Genres { get; set; }
         public List<SeriesLinkDto> Series { get; set; }
         public List<FilesDto> Files { get; set; }
-        public string CoverLink { get; set; }
+        public string CoverImageId { get; set; }
         public string DescriptionHtml { get; set; }
         public string DescriptionText { get; set; }
 

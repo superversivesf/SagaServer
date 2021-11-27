@@ -14,7 +14,6 @@ namespace SagaUtil.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ImageController : ControllerBase
     {
         private BookCommands _bookCommands;

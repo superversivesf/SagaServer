@@ -30,7 +30,6 @@ namespace SagaUtil.Controllers
                 var _authorDto = new AuthorDto();
                 _authorDto.Name = author.AuthorName;
                 _authorDto.Id = author.AuthorId;
-                _authorDto.DetailsLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Author/{author.AuthorId}/Details";
                 _result.Add(_authorDto);
             }
             return _result;
@@ -44,7 +43,6 @@ namespace SagaUtil.Controllers
             var _authorDto = new AuthorDto();
             _authorDto.Name = _author.AuthorName;
             _authorDto.Id = _author.AuthorId;
-            _authorDto.DetailsLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Author/{_author.AuthorId}/Details";
             return _authorDto;
         }
 
@@ -61,14 +59,14 @@ namespace SagaUtil.Controllers
             _authorDetailsDto.Id = _author.AuthorId;
             _authorDetailsDto.HtmlDescription = _author.AuthorDescription;
             _authorDetailsDto.TextDescription = HtmlHelper.HtmlToPlainText(_author.AuthorDescription);
-            _authorDetailsDto.ImageLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Image/{_author.AuthorId}";
+            _authorDetailsDto.ImageId = _author.AuthorId;
             _authorDetailsDto.WebsiteLink = _author.AuthorWebsite;
             _authorDetailsDto.Born = _author.Born;
             _authorDetailsDto.Died = _author.Died;
             _authorDetailsDto.Genre = _author.Genre;
             _authorDetailsDto.Influences = _author.Influences;
             _authorDetailsDto.Twitter = _author.Twitter;
-            _authorDetailsDto.BookLinks = _books.Select(b => new BookLinkDto(){BookTitle = b.GoodReadsTitle != null? b.GoodReadsTitle : b.BookTitle, BookId = b.BookId, BookLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Book/{b.BookId}", BookDetailsLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Book/{b.BookId}/Details" }).ToList();
+            _authorDetailsDto.BookLinks = _books.Select(b => new BookLinkDto(){BookTitle = b.GoodReadsTitle != null? b.GoodReadsTitle : b.BookTitle, BookId = b.BookId, }).ToList();
 
             return _authorDetailsDto;
         }

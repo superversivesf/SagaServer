@@ -49,8 +49,7 @@ namespace SagaUtil.Controllers
                     else
                         _bookDto.ShortDesc = HtmlHelper.HtmlToPlainText(book.GoodReadsDescription).Substring(0, 100).Trim() + " ...";
                 }
-                _bookDto.CoverLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Image/{book.BookId}";
-                _bookDto.DetailsLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Book/{book.BookId}/Details";
+                _bookDto.CoverImageId = book.BookId;
                 _bookDto.Authors = _Authors != null ? _Authors.Where(a => a.AuthorType == AuthorType.Author || a.AuthorType == AuthorType.Editor).Select(a => a.AuthorName).ToList() : null;
                 _result.Add(_bookDto);
             }
@@ -68,8 +67,7 @@ namespace SagaUtil.Controllers
             _bookDto.Title = _book.GoodReadsTitle;
             _bookDto.BookId = _book.BookId;
             _bookDto.ShortDesc = HtmlHelper.HtmlToPlainText(_book.GoodReadsDescription).Substring(0, 100).Trim() + " ...";
-            _bookDto.CoverLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Image/{id}";
-            _bookDto.DetailsLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Book/{_book.BookId}/Details";
+            _bookDto.CoverImageId = _book.BookId;
             _bookDto.Authors = _Authors.Where(a => a.AuthorType == AuthorType.Author || a.AuthorType == AuthorType.Editor).Select(a => a.AuthorName).ToList();
             return _bookDto;
         }
@@ -89,12 +87,12 @@ namespace SagaUtil.Controllers
             _bookDetailsDto.Title = _book.GoodReadsTitle;
             _bookDetailsDto.BookId = _book.BookId;
 
-            _bookDetailsDto.Authors = _authors.Select(a => new AuthorLinkDto() { AuthorLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Author/{a.AuthorId}", AuthorName = a.AuthorName }).ToList();
-            _bookDetailsDto.Series = _series.Select(s => new SeriesLinkDto() { SeriesLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Series/{ s.SeriesId}", SeriesName = s.SeriesName }).ToList();
-            _bookDetailsDto.Genres = _genres.Select(g => new GenreLinkDto() { GenreLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Genre/{g.GenreId}", GenreName = g.GenreName }).ToList();
-            _bookDetailsDto.Files = _files.Select(f => new FilesDto() { FileId = f.AudioFileId, FileLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/AudioFile/{f.AudioFileId}", Duration = f.Duration, Filename = f.AudioFileName }).ToList();
+            _bookDetailsDto.Authors = _authors.Select(a => new AuthorLinkDto() { AuthorId = a.AuthorId, AuthorName = a.AuthorName }).ToList();
+            _bookDetailsDto.Series = _series.Select(s => new SeriesLinkDto() { SeriesId = s.SeriesId, SeriesName = s.SeriesName }).ToList();
+            _bookDetailsDto.Genres = _genres.Select(g => new GenreLinkDto() { GenreId = g.GenreId, GenreName = g.GenreName }).ToList();
+            _bookDetailsDto.Files = _files.Select(f => new FilesDto() { FileId = f.AudioFileId, Duration = f.Duration, Filename = f.AudioFileName }).ToList();
 
-            _bookDetailsDto.CoverLink = $"{SystemVariables.Instance.Protocol}://{Request.Host}/api/Image/{id}"; 
+            _bookDetailsDto.CoverImageId = _book.BookId; 
             _bookDetailsDto.DescriptionHtml = _book.GoodReadsDescription;
             _bookDetailsDto.DescriptionText = HtmlHelper.HtmlToPlainText(_book.GoodReadsDescription);
 

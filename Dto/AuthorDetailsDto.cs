@@ -12,7 +12,7 @@ namespace SagaServer.Dto
         public List<BookLinkDto> BookLinks {get;set;}
         public string HtmlDescription { get; set; }
         public string TextDescription { get; set; }
-        public string ImageLink { get; set; }
+        public string ImageId { get; set; }
         public string WebsiteLink { get; set; }
         public string Born { get; set; }
         public string Died { get; set; }

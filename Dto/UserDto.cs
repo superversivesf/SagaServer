@@ -20,4 +20,35 @@ namespace SagaUtil.Dto
         public string RefreshTokenValue { get; set; }
         public string ClientID { get; set; }
     }
+
+    public class SetProgressDto 
+    {
+        public string UserName { get; set; }
+        public string BookId { get; set; }
+        public string FileId { get; set; }
+        public double Offset { get; set; }
+    }
+
+    public class GetProgressDto
+    {
+        public string UserName { get; set; }
+        public string BookId { get; set; }
+        public string FileId { get; set; }
+        public double Offset { get; set; }
+    }
+
+    public class SetReadDto
+    { 
+        public string UserName { get; set; }
+        public string BookId { get; set; }
+        public bool IsRead { get; set; }
+
+    }
+
+    public class GetReadDto
+    {
+        public string UserName { get; set; }
+        public string BookId { get; set; }
+    }
+
 }

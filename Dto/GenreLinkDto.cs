@@ -2,7 +2,7 @@
 {
     public class GenreLinkDto
     {
-        public string GenreLink { get; set; }
+        public string GenreId { get; set; }
         public string GenreName { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace SagaServer.Dto
 {
     public class SeriesDto
     {
-        public string SeriesDetailsLink { get; set; }
+        public string SeriesId { get; set; }
         public string SeriesName { get; set; }
     }
 }
