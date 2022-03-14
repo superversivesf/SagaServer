@@ -77,7 +77,7 @@ namespace SagaUtil.Controllers
             var _user = this._userCommands.GetUser(setProgress.UserName);
             var _book = this._bookCommands.GetBook(setProgress.BookId);
             var _file = this._bookCommands.GetAudioFile(setProgress.FileId);
-            var _progress = this._userCommands.GetProgress(setProgress.UserName, setProgress.BookId);
+            BookProgress _progress = null;// this._userCommands.GetProgress(setProgress.BookId);
                 
 
             if (_user!= null && _book != null && _file != null) // User, book or file is missing
@@ -112,27 +112,27 @@ namespace SagaUtil.Controllers
             });
         }
 
-        [HttpPost("GetProgress", Name = "GetProgress")]
-        public IActionResult Progress([FromBody] GetProgressDto getProgress)
-        {
-            var _user = this._userCommands.GetUser(getProgress.UserName);
+        //[HttpPost("GetProgress", Name = "GetProgress")]
+        //public IActionResult Progress([FromBody] GetProgressDto getProgress)
+        //{
+        //    var _user = this._userCommands.GetUser(getProgress.UserName);
 
-            List<BookProgress> _bookProgresses = null;
+        //    List<BookProgress> _bookProgresses = null;
 
-            if (getProgress.BookId == null)
-            {
-                _bookProgresses = this._userCommands.GetProgressByUser(_user.UserId);
-            }
-            else
-            {
-                _bookProgresses = this._userCommands.GetProgressByUserAndBookID(_user.UserId, getProgress.BookId);
-            }
+        //    if (getProgress.BookId == null)
+        //    {
+        //        _bookProgresses = this._userCommands.GetProgressByUser(_user.UserId);
+        //    }
+        //    else
+        //    {
+        //        _bookProgresses = this._userCommands.GetProgressByUserAndBookID(_user.UserId, getProgress.BookId);
+        //    }
 
-            return Ok(new
-            {
-                bookProgress = _bookProgresses
-            }) ;
-        }
+        //    return Ok(new
+        //    {
+        //        bookProgress = _bookProgresses
+        //    }) ;
+        //}
 
         [HttpPost("SetRead", Name = "SetRead")]
         public IActionResult GetRead([FromBody] SetReadDto setRead)

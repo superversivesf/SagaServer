@@ -7,7 +7,6 @@ namespace SagaUtil.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class AudioFileController : ControllerBase
     {
         private BookCommands _bookCommands;
